@@ -1,0 +1,6 @@
+/build
+/output
+/input
+/node_modules
+/.idea/
+config.json
