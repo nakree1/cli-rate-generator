@@ -48,9 +48,13 @@ module.exports = async function ({ user, managerId, topicChunks, progress }) {
           customerId: id,
           managerId
         }))
-      );
+      ).catch(_ => {
+        return []
+      });
 
-      await commentTask({ instance: client, customerId: id, opinions: idList });
+      if (idList.length) {
+        await commentTask({ instance: client, customerId: id, opinions: idList });
+      }
 
       opinionsCount = opinionsCount + idList.length;
       update(opinionsCount + current);

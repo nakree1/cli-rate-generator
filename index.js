@@ -9,17 +9,21 @@ const sendInvites = require('./modules/invite/sendInvites');
 const rateTopics = require('./modules/rate/rateTopics');
 
 async function run() {
-  welcomeMessage();
-  const config = await ensureConfig();
-  configMessage(config);
+  try {
+    welcomeMessage();
+    const config = await ensureConfig();
+    configMessage(config);
 
-  const { action } = await askRateOrCreateUsers();
+    const { action } = await askRateOrCreateUsers();
 
-  if (action === CREATE_USER_CHOICE) {
-    await sendInvites(config);
+    if (action === CREATE_USER_CHOICE) {
+      await sendInvites(config);
+    }
+
+    await rateTopics(config);
+  } catch (err) {
+
   }
-
-  await rateTopics(config);
 }
 
 run();

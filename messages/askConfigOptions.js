@@ -49,7 +49,19 @@ const questions = [
       }
 
       return true
-    }
+    },
+  },
+  {
+    name: 'requestLimit',
+    type: 'number',
+    message: 'Please write a limit of simultaneous requests:',
+    validate: (input) => {
+      if (input <= 0) {
+        return chalk.yellow('User count should be greater than zero or equals zero');
+      }
+
+      return true
+    },
   },
 ];
 
