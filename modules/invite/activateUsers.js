@@ -2,22 +2,27 @@ const chalk = require('chalk');
 const fs = require('fs-extra');
 
 const generateUser = require('./generateUser');
-const { USER_FILE, INVITE_TOKENS_FILE, INVITE_JSON_FILE } = require('../../utils/constants');
+// const askTokens = require('../../messages/askTokens');
+const userSchema = require('../../utils/userSchema');
+const { USER_FILE, INVITE_TOKENS_FILE } = require('../../utils/constants');
 
 module.exports = async function () {
   try {
     const tokenData = await fs.readFile(INVITE_TOKENS_FILE, 'utf-8');
-    const tokens = tokenData.split('\n');
+    // const { tokenData } = await askTokens();
+    const tokens = tokenData.split('\n').map(token => token.trim()).filter(token => token.length !== 0);
 
-    const users = await fs.readJson(INVITE_JSON_FILE);
+    const users = await fs.readJson(USER_FILE);
 
     if (!tokens.length) {
       console.error(`Token file (${INVITE_TOKENS_FILE}) do not contain any tokens.`);
       process.exit();
     }
 
-    const usersWithTokens = tokens.filter(token => token.length !== 0).map((token, index) => {
-      const user =  { token, ...users[index] };
+    console.log(tokens);
+
+    const usersWithTokens = tokens.map((token, index) => {
+      const user =  { ...users[index],  token };
       return user;
     });
 
@@ -27,7 +32,7 @@ module.exports = async function () {
       const data = await generateUser(usersWithTokens[i]);
 
       if (data !== null) {
-        successUsers.push(data);
+        successUsers.push(userSchema(data));
       }
     }
 

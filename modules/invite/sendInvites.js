@@ -3,6 +3,7 @@ const getAuthClient = require('../getAuthClient');
 const generateInvite = require('./generateInvite');
 const writeInviteFile = require('./writeInviteFile');
 const activateUsers = require('./activateUsers');
+const userSchema = require('../../utils/userSchema');
 
 module.exports = async function sendInvites(config) {
   const { admin: { email, password }, manager: { id: managerId }, userCount } = config;
@@ -16,7 +17,7 @@ module.exports = async function sendInvites(config) {
       const user = await generateInvite({ instance, managerId });
 
       if (user !== null) {
-        customers.push(user);
+        customers.push(userSchema(user));
       }
     }
 

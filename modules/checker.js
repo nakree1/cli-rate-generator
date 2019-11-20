@@ -18,13 +18,14 @@ function isConfigValid() {
   try {
     const config = fs.readJsonSync(CONFIG_PATH);
 
-    const { admin, manager, userCount } = config;
+    const { admin, manager, userCount, requestLimit } = config;
 
     const validation = [
       () => isEmail(admin.email),
       () => !isEmpty(admin.password),
       () => isInt(String(manager.id)) && String(manager.id) > 0,
-      () => isInt(String(userCount)) && String(userCount) > 0
+      () => isInt(String(userCount)) && String(userCount) > 0,
+      () => isInt(String(requestLimit)) && String(requestLimit) >= 0,
     ];
 
     return validation.every(func => func());

@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const routes = require('../../utils/routes');
 const { DEFAULT_PASSWORD } = require('../../utils/constants');
+const displayError = require('../../utils/displayError');
 
 module.exports = async function(user) {
   try {
@@ -15,11 +16,14 @@ module.exports = async function(user) {
       processPersonalData: true
     };
 
+    console.log(body);
+
     await axios.post(routes.register, body);
 
-    return { email, password: body.password, id };
+    return { id, token, email, firstName, lastName, password: body.password };
   } catch(err) {
-    console.log(err);
+    displayError(err);
+
     return null
   }
 };
