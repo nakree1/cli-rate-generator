@@ -12,7 +12,7 @@ const { USER_FILE } = require('../../utils/constants');
 const { isUserFileValid } = require('../checker');
 
 module.exports = async function (config) {
-  const { manager: { id: managerId }, requestLimit } = config;
+  const { manager: { id: managerId }, company: { id: companyId }, requestLimit } = config;
 
   if (!isUserFileValid) {
     console.log(chalk.red(`Users file (${USER_FILE}) is not valid or does not exist`));
@@ -44,6 +44,7 @@ module.exports = async function (config) {
         {
           user: users[i],
           managerId,
+          companyId,
           topicChunks,
           progress: { current: opinionsCount, update: Progress.draw }
         });

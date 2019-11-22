@@ -20,7 +20,7 @@ module.exports = async function ensureConfig() {
 
   if (errorFlag) {
     console.log(chalk.green.bold('Generating a new config file...'));
-    const { email, password, managerId, userCount, requestLimit } = await askConfigOptions();
+    const { email, password, managerId, companyId, userCount, requestLimit } = await askConfigOptions();
 
     const config = {
       admin: {
@@ -28,6 +28,9 @@ module.exports = async function ensureConfig() {
       },
       manager: {
         id: managerId
+      },
+      company: {
+        id: companyId
       },
       userCount,
       requestLimit

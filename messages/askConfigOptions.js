@@ -40,6 +40,18 @@ const questions = [
     }
   },
   {
+    name: 'companyId',
+    type: 'number',
+    message: 'Please write a company id:',
+    validate: (input) => {
+      if (input <= 0) {
+        return chalk.yellow('Company id should be greater than zero');
+      }
+
+      return true
+    }
+  },
+  {
     name: 'userCount',
     type: 'number',
     message: 'Please write count of generated users:',
